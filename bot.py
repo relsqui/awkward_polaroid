@@ -10,9 +10,9 @@ auth.set_access_token(access_token, access_token_secret)
 twitter = tweepy.API(auth)
 
 with open("for_consuming") as f:
-    grams = f.read().splitlines()
+    photos = f.read().splitlines()
 
-random.shuffle(grams)
+random.shuffle(photos)
 photo_file = grams.pop()
 comment = random.choice([
         "Hmm ...",
@@ -35,7 +35,8 @@ comment = random.choice([
         "Goodness."
     ])
 
-tweet = twitter.update_with_media(photo_file, comment)
+#tweet = twitter.update_with_media(photo_file, comment)
+print("I would tweet " + photo_file + " and say: " + comment)
 
 with open("for_consuming", "w") as f:
     f.write("\n".join(grams))
