@@ -1,0 +1,258 @@
+startshape photo
+scale = 2.3 // Just for the frame, not the whole thing.
+
+CF::Background = [ hue rand(0, 360) sat 0.4 b -0.7 ]
+CF::Impure = 1
+CF::Size = [ size (scale * 2) ]
+
+shape photo {
+	buddies [ y 0.5 ]
+	polaroid_frame []
+}
+
+shape buddies {
+	body []
+	body [ x -1.4 ]
+	body [ x 1.4 ]
+}
+
+shape polaroid_frame {
+	polaroid_outline []
+	SQUARE [ size (scale * 2) (scale * 1/2) y (scale * -3/4) sat 0 b 1 ]
+}
+
+path polaroid_outline {
+	negscale = scale * -1
+	MOVETO(negscale, scale)
+	LINETO(scale, scale)
+	LINETO(scale, negscale)
+	LINETO(negscale, negscale)
+	CLOSEPOLY()
+	STROKE(0.2) [ sat 0 b 1 ]
+}
+
+// Basic body stuff!
+
+shape body {
+	paleness = rand(0.4, 1)
+	torso [ y rand(-1, -0.9) z -2 ]
+	// This is actually the neck, I'm just borrowing the torso shape.
+	primitive_torso [ size rand::normal(0.4, 0.05) y -0.75 flip 0 z -2 hue 40 sat 0.48 b (paleness*0.9) ]
+	face(paleness) [ y rand(-0.1, 0) ]
+}
+
+shape face(number paleness) {
+	height = rand::normal(1.3, 0.1)
+	skin(=) [ size 1 height z -1 ]
+	eyes(=) [ y 0.1 ]
+	nose(=) [ y (-0.05 * height) z 1 ]
+	mouth(=) [ y (-0.24 * height) ]
+	ears(=) []
+	hair(height) []
+	blush []
+}
+
+shape blush
+rule 1 {}
+rule 0.5 {
+	visibility = rand(-0.8, -0.5)
+	CIRCLE [ size 0.2 0.1 x -0.25 y -0.1 sat 0.3 b 0.9 alpha visibility ]
+	CIRCLE [ size 0.2 0.1 x 0.25 y -0.1 sat 0.3 b 0.9 alpha visibility ]
+
+}
+
+shape torso {
+	shirt_hue = randint(80, 360)
+	primitive_torso [ size rand(1.2, 1.8) 0.75 hue shirt_hue sat 0.7 b 0.8 ]
+}
+
+shape primitive_torso {
+	CIRCLE []
+	SQUARE [ y -0.5 ]
+}
+
+
+shape skin(number paleness) {
+	CIRCLE [ hue 40 sat 0.48 b paleness ]
+}
+
+
+// Eyes!
+
+shape eyes(number paleness) {
+	spacing = rand::normal(0.18, 0.02)
+	base_eyes(spacing) []
+	eyelids(paleness, spacing) []
+}
+
+shape base_eyes(number spacing)
+rule 0.7 {
+	// Looking ahead normally.
+	eye(1, 0) [ x spacing ]
+	eye(1, 0) [ x (-1 * spacing) ]
+}
+rule 0.25 {
+	// Surprised!
+	eye(1.3, 0) [ x spacing ]
+	eye(1.3, 0) [ x (-1 * spacing) ]
+}
+rule 0.4 {
+	// Glance right.
+	eye(1, 0.035) [ x spacing ]
+	eye(1, 0.035) [ x (-1 * spacing) ]
+}
+rule 0.4 {
+	// Glance left.
+	eye(1, -0.035) [ x spacing ]
+	eye(1, -0.035) [ x (-1 * spacing) ]
+}
+
+shape eye(number surprised, number glance) {
+	CIRCLE [ sat 0 b 1 size 0.2 (0.13 * surprised) ]
+	CIRCLE [ size 0.12 x glance y -0.005 ]
+}
+
+shape eyelids(number paleness, number spacing)
+rule 1 { }
+rule 0.3 {
+	// Squinty-happy.
+	eyelid(paleness) [ x spacing y -0.09 ]
+	eyelid(paleness) [ x (-1 * spacing) y -0.09 ]
+} 
+rule 0.3 {
+	// Sad.
+	worried_eye(1, paleness, spacing) []
+	worried_eye(-1, paleness, spacing) []
+}
+rule 0.1 {
+	// Left half-lidded only.
+	lidded_eye(1, paleness, spacing) []
+}
+rule 0.1 {
+	// Right half-lidded only.
+	lidded_eye(-1, paleness, spacing) []
+}
+rule 0.1 {
+	// Half + worried one way.
+	lidded_eye(1, paleness, spacing) []
+	worried_eye(-1, paleness, spacing) []
+}
+rule 0.1 {
+	// And the other way.
+	worried_eye(1, paleness, spacing) []
+	lidded_eye(-1, paleness, spacing) []
+}
+
+shape lidded_eye(number side, number paleness, number spacing) {
+	// Half-lidded.
+	eyelid(paleness) [ x (side * spacing) y 0.075 ]
+}
+
+shape worried_eye(number side, number paleness, number spacing) {
+	// Sad or worried.
+	eyelid(paleness) [ size 1.4 1 x (1.2 * side * spacing) y 0.09 rotate (side * -20) ]
+}
+
+shape eyelid(number paleness) {
+	skin(paleness) [ size 0.35 0.13 ]
+}
+
+
+// Nose!
+
+shape nose(number paleness) {
+	length = rand(0.18, 0.28)
+	width = rand::normal(0.1, 0.01)
+	skin(paleness * 0.9) [ size width length alpha 1 ]
+	skin(paleness * 0.9) [ size (width * 1.5) 0.1 y (-0.25 * length) alpha 1 ]
+}
+
+
+// Mouth!
+
+shape mouth(number paleness) {
+	width_factor = rand::normal(0.8, 0.1)
+	lips(paleness, width_factor) []
+	mouth_stroke(width_factor) [ z 2 ]
+}
+
+shape lips(number paleness, number width_factor) {
+	lip_hue = rand(5, 20)
+	lip_sat = rand(0.5, 0.7)
+	lip_bri = paleness * 1.5
+	CIRCLE [ hue lip_hue sat lip_sat b lip_bri size (0.17 * width_factor) 0.08 x (-0.06 * width_factor) alpha 1 ]
+	CIRCLE [ hue lip_hue sat lip_sat b lip_bri size (0.17 * width_factor) 0.08 x (0.06 * width_factor) alpha 1 ]
+	CIRCLE [ hue lip_hue sat lip_sat b lip_bri size (0.25 * width_factor) 0.08 y -0.018 alpha 1 ]
+}
+
+shape mouth_stroke(number width_factor)
+rule 1 {
+	smile(=) [ ]
+}
+rule 0.5 {
+	frown(=) [ y -0.02 ]
+}
+
+path smile(number width_factor) {
+	MOVETO((-0.15 * width_factor), rand::normal(0.01, 0.005))
+	ARCTO((0.15 * width_factor), rand::normal(0.01, 0.005), rand(0.2, 1))
+	STROKE(0.005) [ hue 10 sat 0.6 b -0.6 alpha -0.8 ]
+}
+
+path frown(number width_factor) {
+	MOVETO((-0.15 * width_factor), rand::normal(0.01, 0.005))
+	ARCTO((0.15 * width_factor), rand::normal(0.01, 0.005), rand(-8, -0.2))
+	STROKE(0.005) [ hue 10 sat 0.6 b 0.2 alpha -0.6 ]
+}
+
+
+// Ears!
+
+shape ears(number paleness) {
+	length = rand(0.22, 0.32)
+	width = rand(0.08, 0.3)
+	skin(paleness) [ size width length x -0.5 ]
+	skin(paleness) [ size width length x 0.5 ]	
+}
+
+
+// Hair!
+
+hair_color = [ hue if(rand(0, 2) == 0, rand(0, 360), 45) sat 0.7 b rand(0.3, 1) ]
+
+shape hair(number face_height) {
+	hair_hue = rand::normal(45, 40)
+	hair_sat = 0.7
+	hair_bri = rand(0.3, 1)
+	hair_style(face_height, hair_hue, hair_sat, hair_bri) []
+}
+
+shape hair_style(number face_height, number hh, number hs, number hb)
+rule 1 {
+	mohawk(=) []
+}
+rule 1 {
+	bowl(=) [ z 3 ]
+}
+rule 1 {
+	bowl(=) [z 3]
+	SQUARE [ size 0.2 (face_height/1.2) x -0.39 y (0 - face_height/5) z 3 hue hh hs hb ]
+	SQUARE [ size 0.2 (face_height/1.2) x 0.39 y (0 - face_height/5) z 3 hue hh hs hb ]
+	SQUARE [ size 0.8 y -0.3 z -3 hue hh hs (hb * 0.8) ]
+}
+
+path mohawk(number face_height, number hh, number hs, number hb) {
+	hawk_height = rand(max(0.6, face_height/1.8), 1)
+	MOVETO(-0.03, face_height/3)
+	ARCTO(0.08, (face_height/2), -0.5)
+	ARCTO(-0.03, hawk_height, (hawk_height * rand(0.1, 0.6)))
+	CLOSEPOLY()
+	FILL [ hue hh hs hb ]
+}
+
+path bowl(number face_height, number hh, number hs, number hb) {
+	MOVETO(-0.49, face_height/5)
+	ARCTO(0.49, face_height/5, -0.4)
+	CLOSEPOLY()
+	FILL [ hue hh hs hb ]
+}
