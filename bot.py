@@ -13,7 +13,7 @@ with open("for_consuming") as f:
     photos = f.read().splitlines()
 
 random.shuffle(photos)
-photo_file = grams.pop()
+photo_file = photos.pop()
 comment = random.choice([
         "Hmm ...",
         "Oh my.",
@@ -35,11 +35,10 @@ comment = random.choice([
         "Goodness."
     ])
 
-#tweet = twitter.update_with_media(photo_file, comment)
-print("I would tweet " + photo_file + " and say: " + comment)
+tweet = twitter.update_with_media(photo_file, comment)
 
 with open("for_consuming", "w") as f:
-    f.write("\n".join(grams))
+    f.write("\n".join(photos))
 
 with open("tweet_history", "a") as f:
-    f.write("{0}\t{1}\n".format(tweet.id, to_tweet))
+    f.write("{0}\t{1}\n".format(tweet.id, photo_file))
