@@ -1,12 +1,13 @@
 startshape photo
-scale = 2.3 // Just for the frame, not the whole thing.
+scale = 2.3 // Just affects the image and frame size, not the people.
 
-CF::Background = [ hue rand(0, 360) sat 0.4 b -0.7 ]
+CF::Background = [ hue rand(0, 360) sat 0.6 b 1 ]
 CF::Impure = 1
 CF::Size = [ size (scale * 2) ]
 
 shape photo {
 	buddies [ y 0.5 ]
+	bg_buddies [ y 0.5 ]
 	polaroid_frame []
 }
 
@@ -14,6 +15,25 @@ shape buddies {
 	body []
 	body [ x -1.4 ]
 	body [ x 1.4 ]
+}
+
+shape bg_buddies
+rule {
+}
+rule {
+	FILL [ z -4 b 0.4 alpha -0.65 ]
+	bg_buddy [ x rand(-2.4, -1.8) y 0.2 ]
+	bg_buddy [ x rand(-1, -0.5) y 0.2 ]
+	bg_buddy [ x rand(0.5, 1) y 0.2 ]
+	bg_buddy [ x rand(1.8, 2.4) y 0.2 ]
+}
+
+shape bg_buddy
+rule {
+}
+rule {
+	body [ size 0.9 z -10 ]
+	bg_buddies [ z -5 ]	
 }
 
 shape polaroid_frame {
@@ -68,7 +88,7 @@ shape torso {
 
 shape primitive_torso {
 	CIRCLE []
-	SQUARE [ y -0.5 ]
+	SQUARE [ size 1 2 y -1 ]
 }
 
 
@@ -161,8 +181,8 @@ shape eyelid(number paleness) {
 // Nose!
 
 shape nose(number paleness) {
-	length = rand(0.18, 0.28)
-	width = rand::normal(0.1, 0.01)
+	length = rand(0.18, 0.29)
+	width = rand::normal(0.1, 0.02)
 	skin(paleness * 0.9) [ size width length alpha 1 ]
 	skin(paleness * 0.9) [ size (width * 1.5) 0.1 y (-0.25 * length) alpha 1 ]
 }
@@ -228,6 +248,7 @@ shape hair(number face_height) {
 }
 
 shape hair_style(number face_height, number hh, number hs, number hb)
+rule 0.5 { }
 rule 1 {
 	mohawk(=) []
 }
@@ -235,10 +256,25 @@ rule 1 {
 	bowl(=) [ z 3 ]
 }
 rule 1 {
-	bowl(=) [z 3]
-	SQUARE [ size 0.2 (face_height/1.2) x -0.39 y (0 - face_height/5) z 3 hue hh hs hb ]
-	SQUARE [ size 0.2 (face_height/1.2) x 0.39 y (0 - face_height/5) z 3 hue hh hs hb ]
+	bowl(=) [ size 1.08 1 z 3 ]
+	SQUARE [ size 0.2 (face_height/1.2) x -0.3925 y (0 - face_height/5) z 3 hue hh hs hb ]
+	SQUARE [ size 0.2 (face_height/1.2) x 0.3925 y (0 - face_height/5) z 3 hue hh hs hb ]
 	SQUARE [ size 0.8 y -0.3 z -3 hue hh hs (hb * 0.8) ]
+}
+rule 1 {
+	crew(=) [ z 3 ]
+}
+rule 1 {
+	left_side(=) [ z 3 ]
+	left_side(=) [ flip 90 z 3 ]
+	CIRCLE [ size 1.07 0.9
+ y (-0.13 * face_height) z -3 hue hh hs (hb * 0.8) ]
+}
+rule 0.5 {
+	left_side(=) [ z 3 ]
+}
+rule 0.5 {
+	left_side(=) [ flip 90 z 3 ]
 }
 
 path mohawk(number face_height, number hh, number hs, number hb) {
@@ -251,8 +287,27 @@ path mohawk(number face_height, number hh, number hs, number hb) {
 }
 
 path bowl(number face_height, number hh, number hs, number hb) {
-	MOVETO(-0.49, face_height/5)
-	ARCTO(0.49, face_height/5, -0.4)
+	MOVETO(-0.46, face_height/5)
+	ARCTO(0.46, face_height/5, (face_height * -0.2))
+	CLOSEPOLY()
+	FILL [ hue hh hs hb ]
+}
+
+path crew(number face_height, number hh, number hs, number hb) {
+	crew_height = rand(face_height/2, face_height/1.3)
+	MOVETO(-0.46, face_height/5)
+	LINETO(-0.46, crew_height)
+	LINETO(0.46, crew_height)
+	LINETO(0.46, face_height/5)
+	ARCTO(-0.46, face_height/5, 1)
+	CLOSEPOLY()
+	FILL [ hue hh hs hb ]
+}
+
+path left_side(number face_height, number hh, number hs, number hb) {
+	MOVETO(-0.01, (face_height/1.95))
+	ARCTO(0.45, (face_height/-3), (-0.5 * face_height))
+	ARCTO(-0.01, (face_height/2 - 0.15), 1)
 	CLOSEPOLY()
 	FILL [ hue hh hs hb ]
 }
