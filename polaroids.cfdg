@@ -1,39 +1,42 @@
 startshape photo
 scale = 2.3 // Just affects the image and frame size, not the people.
 
-CF::Background = [ hue rand(0, 360) sat 0.6 b 1 ]
+CF::Background = [ hue rand(0, 360) sat 0.8 b 1 ]
 CF::Impure = 1
 CF::Size = [ size (scale * 2) ]
 
 shape photo {
-	buddies [ y 0.5 ]
-	bg_buddies [ y 0.5 ]
+	probably_buddy [ x -1.4 y 0.5 ]
+	probably_buddy [ y 0.5 ]
+	probably_buddy [ x 1.4 y 0.5 ]
+	bg_buddies(0.3) [ y 0.5 ]
 	polaroid_frame []
 }
 
-shape buddies {
+shape probably_buddy
+rule 1 { }
+rule 3 {
 	body []
-	body [ x -1.4 ]
-	body [ x 1.4 ]
 }
 
-shape bg_buddies
+
+shape bg_buddies(number next_y)
 rule {
 }
 rule {
-	FILL [ z -4 b 0.4 alpha -0.65 ]
-	bg_buddy [ x rand(-2.4, -1.8) y 0.2 ]
-	bg_buddy [ x rand(-1, -0.5) y 0.2 ]
-	bg_buddy [ x rand(0.5, 1) y 0.2 ]
-	bg_buddy [ x rand(1.8, 2.4) y 0.2 ]
+	FILL [ z -4 b 0.5 alpha (-0.9 + (next_y * 1.1)) ]
+	bg_buddy(next_y * 0.8) [ x rand(-2.4, -1.8) y next_y ]
+	bg_buddy(next_y * 0.8) [ x rand(-1, -0.5) y next_y ]
+	bg_buddy(next_y * 0.8) [ x rand(0.5, 1) y next_y ]
+	bg_buddy(next_y * 0.8) [ x rand(1.8, 2.4) y next_y ]
 }
 
-shape bg_buddy
+shape bg_buddy(number next_y)
 rule {
 }
 rule {
 	body [ size 0.9 z -10 ]
-	bg_buddies [ z -5 ]	
+	bg_buddies(=) [ z -10 ]	
 }
 
 shape polaroid_frame {
@@ -88,7 +91,7 @@ shape torso {
 
 shape primitive_torso {
 	CIRCLE []
-	SQUARE [ size 1 2 y -1 ]
+	SQUARE [ size 1 2.7 y -1.4 ]
 }
 
 
@@ -288,7 +291,7 @@ path mohawk(number face_height, number hh, number hs, number hb) {
 
 path bowl(number face_height, number hh, number hs, number hb) {
 	MOVETO(-0.46, face_height/5)
-	ARCTO(0.46, face_height/5, (face_height * -0.2))
+	ARCTO(0.46, face_height/5, (face_height * -0.15))
 	CLOSEPOLY()
 	FILL [ hue hh hs hb ]
 }
