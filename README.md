@@ -6,7 +6,7 @@ This is a bot that generates polaroid photos of people and tweets them. Some exa
 
 <img src="https://pbs.twimg.com/media/C_Wlzh-UMAEk4Ue.jpg" width=250 height=250> <img src="https://pbs.twimg.com/media/C_Vho9yU0AIXoLN.jpg" width=250 height=250> <img src="https://pbs.twimg.com/media/C_UhjtDUIAAx19D.jpg" height=250 width=250>
 
-The grammar and photos are licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/), which means you can modify them and use them for whatever you want as long as you include attribution (linking to this repository is fine). The code is licensed under [MIT](LICENSE), which means you can modify it and use it for whatever you want, with or without attribution.
+The grammar and photos are licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/), which means you can modify them and use them for whatever you want as long as you include attribution (linking to this repository is fine). The code is licensed under [MIT](LICENSE), which means you can modify it and use it for whatever you want as long as you include the copyright and license information.
 
 If you have ideas for additions, feel free to create an issue, send a pull request, or [email me](mailto:relsqui@chiliahedron.com).
 
