@@ -2,7 +2,7 @@
 
 Copyright (c) 2017 [Finn Ellis](relsqui@chiliahedron.com).
 
-This is a bot that generates polaroid photos of people and tweets them. Some examples (there are a bunch more in [polaroids/](polaroids)):
+This is a bot that generates polaroid photos of people and tweets them. Some examples (there are a bunch more in [polaroids/](polaroids) and on [Twitter](http://twitter.com/awkwardpolaroid)):
 
 <img src="https://pbs.twimg.com/media/C_Wlzh-UMAEk4Ue.jpg" width=250 height=250> <img src="https://pbs.twimg.com/media/C_Vho9yU0AIXoLN.jpg" width=250 height=250> <img src="https://pbs.twimg.com/media/C_UhjtDUIAAx19D.jpg" height=250 width=250>
 
@@ -26,4 +26,4 @@ Once that's there, you can use `./makephotos.sh` to fill the polaroids/ director
 
 Create a Twitter account for the bot, add a phone number to it, and [create an app](https://apps.twitter.com/) from that account. This will get you a consumer key and secret for OAUTH. Authenticate with the app to get your personal access token and secret. Add all those values to `example-secrets.py` and rename it to `secrets.py`.
 
-After populating the polaroids directory and setting up your authentication secrets, tweeting a photo is as simple as running `./bot.py`. To post on a regular schedule, add an appropriate line to your crontab. The bot uses relative paths, so you'll want to have cron cd into the directory and then run it, rather than just providing the absolute path.
+After populating the polaroids directory and setting up your authentication secrets, tweeting a photo is as simple as running `./bot.py`. You can change the possible comments that get tweeted along with photos by editing bot.py. To post on a regular schedule, add an appropriate line to your crontab. The bot uses relative paths, so you'll want to have cron cd into the directory and then run it, rather than just providing the absolute path.
