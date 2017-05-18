@@ -21,12 +21,13 @@ comment = random.choice([
         "Oh geeze.",
         "This one's going in my scrapbook.",
         "...",
-        "Oh wow, remember this?",
         "Whose house even was this?",
         "I don't remember this at all.",
         "Er ...",
         "Those were the days.",
-        "I miss that crew."
+        "I miss that crew.",
+        "Nice shirt.",
+        "Wait, who's that?"
     ])
 
 tweet = twitter.update_with_media(photo_file, comment)
