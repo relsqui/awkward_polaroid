@@ -1,5 +1,11 @@
 #!/usr/bin/python3
 
+"""
+Copyright (c) 2017 Finn Ellis.
+Free to use and modify under the terms of the MIT license.
+See included LICENSE file for details.
+"""
+
 import tweepy
 import random
 import os
