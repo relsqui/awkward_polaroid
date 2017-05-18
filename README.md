@@ -26,4 +26,10 @@ Once that's there, use `./makephotos.sh` to fill the polaroids/ directory with p
 
 Create a Twitter account for the bot, add a phone number to it, and [create an app](https://apps.twitter.com/) from that account. This will get you a consumer key and secret for OAUTH. Authenticate with the app to get your personal access token and secret. Add all those values to `example-secrets.py` and rename it to `secrets.py`.
 
-After populating the polaroids directory and setting up your authentication secrets, tweeting a photo is as simple as running `./bot.py`. You can change the possible comments that get tweeted along with photos by editing bot.py. To post on a regular schedule, add an appropriate line to your crontab. The bot uses relative paths, so you'll want to have cron cd into the directory and then run it, rather than just providing the absolute path.
+After populating the polaroids directory and setting up your authentication secrets, tweeting a photo is as simple as running `./bot.py`. You can change the possible comments that get tweeted along with photos by editing bot.py. To post on a regular schedule, add an appropriate line to your [crontab](https://en.wikipedia.org/wiki/Cron). The bot uses relative paths, so you'll want to have cron cd into the directory and then run it, rather than just providing the absolute path.
+
+For example, if your login is my_username and you cloned the repository into your home directory, and you want the bot to post every six hours, your cron line might look like:
+
+```
+0 0,6,12,18 * * * cd /home/my_username/awkward_polaroid; ./bot.py
+```
