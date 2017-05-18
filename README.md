@@ -2,7 +2,7 @@
 
 Copyright (c) 2017 [Finn Ellis](relsqui@chiliahedron.com).
 
-This is a bot that generates polaroid photos of people and tweets them. Some examples (there are a bunch more in [polaroids/](polaroids) and on [Twitter](http://twitter.com/awkwardpolaroid)):
+This is a bot that generates polaroid photos of people and tweets them. Some examples (there are a bunch more on [Twitter](http://twitter.com/awkwardpolaroid)):
 
 <img src="https://pbs.twimg.com/media/C_Wlzh-UMAEk4Ue.jpg" width=250 height=250> <img src="https://pbs.twimg.com/media/C_Vho9yU0AIXoLN.jpg" width=250 height=250> <img src="https://pbs.twimg.com/media/C_UhjtDUIAAx19D.jpg" height=250 width=250>
 
@@ -22,7 +22,7 @@ cd awkward_polaroid
 git clone https://github.com/MtnViewJohn/context-free.git CF3
 ```
 
-Once that's there, you can use `./makephotos.sh` to fill the polaroids/ directory with pictures. (It defaults to 999 at a time, which might take a minute; you can edit that file and make the maximum number smaller, or the starting number higher.)
+Once that's there, use `./makephotos.sh` to fill the polaroids/ directory with pictures. (It defaults to 999 at a time, which might take a minute; you can edit that file to change the quantity or start at a later number.)
 
 Create a Twitter account for the bot, add a phone number to it, and [create an app](https://apps.twitter.com/) from that account. This will get you a consumer key and secret for OAUTH. Authenticate with the app to get your personal access token and secret. Add all those values to `example-secrets.py` and rename it to `secrets.py`.
 
